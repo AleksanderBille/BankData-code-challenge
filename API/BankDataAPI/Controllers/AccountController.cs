@@ -45,7 +45,6 @@ public class AccountController : ControllerBase
         return Ok(accounts);
     }
 
-    // TODO: Tilføj auth på alle
     [HttpGet("{id}")]
     public async Task<ActionResult<Account>> Get(int id)
     {
