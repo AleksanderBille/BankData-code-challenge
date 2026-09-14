@@ -95,3 +95,5 @@ app.MapGet("/db-check", async (AccountContext db) =>
 });
 
 app.Run();
+
+public partial class Program { }
