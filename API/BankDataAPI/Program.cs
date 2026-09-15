@@ -64,6 +64,7 @@ var app = builder.Build();
 // Swagger UI
 if (app.Environment.IsDevelopment())
 {
+    app.UseHttpsRedirection(); // To Avoid Cloud Run redirects
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
@@ -72,7 +73,6 @@ if (app.Environment.IsDevelopment())
 }
 
 // Middleware
-app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 

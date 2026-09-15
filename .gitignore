@@ -1,2 +1,8 @@
 *.iml
 .idea/
+
+BankDataAPI/.env
+env.yaml
+
+CreateUser.sh
+Secrets.txt
