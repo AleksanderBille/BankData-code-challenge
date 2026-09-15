@@ -59,6 +59,16 @@ builder.Services
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173") // your Vite dev server
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // Swagger UI
@@ -73,6 +83,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // Middleware
+app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 
