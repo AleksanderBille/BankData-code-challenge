@@ -15,6 +15,7 @@ API and Database is running in the cloud.
 
 - cd into Fronend folder
 - create .env file (I will have sent the contents of the .env file in the email)
+- npm i
 - npm run dev
 
 ## Using the application
