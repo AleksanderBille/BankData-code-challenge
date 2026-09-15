@@ -1,28 +1,27 @@
-# Coding Challenge
-This repository contains a list of coding challenges used in the hiring process at Bankdata. As an applicant you can choose to implement one of the challenges or alternatively share some of your existing code.
+# API
+The API was written in ASP.NET mainly because it is a framework i have a lot of experience with. I am using EFCore because it is easy to define the structure of the database programatically and it generates migrations by itself.
 
-## Existing Code
-Existing code should follow the guidelines:
+## The solution
+I used Supabase for the DB because it lets me use its own auth plane instead of having to create my own. I have defined account and transaction. Account is bound to a given user so that i can check for each endpoint whether that user has access to that account. It alse lets be retieve all accounts for one user. I created a transaction data class for audits on a user. A transaction is saves when the transfor business logic completes. 
 
-- The code should be available through a public repository
-- Include a README describing the purpose of the code
-- The code should be exclusively or primarily written by you
-  - If this is not the case, the README should explain which parts of the code you are responsible for
+I created a service that i integrated into the controller to sepperate the more complex business logic from the traffic layer. The service only allows you to transfor money out of your own account, you can however transfor to any account. I created checks for whether the amount was positive and whether the from account had a high enough balance for the transfor to take place. 
 
-## Coding Challenges
-### Requirements
-The solution should reflect what you consider production-ready code, which means the code probably contains at least the following:
+I created a small testing suite for the API. Since the transfor logic is contained in a service i could test this alone by injecting a mock context. For the rest of the API i created a custom web app facotory that hooks into the program and replaces the database specific service middleware with an in memory database so the testing does not affect or depend on the Supabase DB. I used a testauthhandler the replaces the auth handler provided by supabase. I created a very simple react frontend that lets you access the API.
 
-- **Architecture**: the solution ideally has a coherent architecture using best practices of software engineering
-- **Tests**: we do not expect complete test coverage, but just some examples of tests that reflect your approach to testing
-- **Documentation**: the README should explain in brief and clear terms which problem the code is trying to solve and how the solution solves it
+The database is hosted in Supabase and the API is hosted through Google Cloud Run so the only thing that needs deploying is the frontend.
 
-We are more interested in your approach to solving a problem than the solution itself, so solve these challenges using any language and tech-stack you are comfortable in. Ideally, you are able to describe why a given technology was chosen.
+## Running the application
+API and Database is running in the cloud.
 
-There is no time limit for the challenges, but we do not expect you to spend more than three to four hours on a challenge. Don't be discouraged if you are unable to complete all the requirements. The challenge is only used to provide a basis for discussion at the following interview.
+- cd into Fronend folder
+- create .env file (I will have sent the contents of the .env file in the email)
+- npm run dev
 
-### Evaluation
-The solution will be reviewed by an engineer and discussed at the following interview.
-
-### Challenges
-1. [Account API](account.md)
+## Using the application
+- create a user in the frontend e.g bankuser@mail.dk / password123
+- log into the frontned
+- create two accounts with some balance
+- use transfer to move money between the two accounts or to another valid account id (I created an account with id 5)
+- Try transfering more money than is available in the account balance
+- Try moving from an account id you dont own
+- Try moving a negative amount.
